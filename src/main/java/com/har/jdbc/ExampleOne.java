@@ -57,3 +57,14 @@ public class ExampleOne {
 
 	}
 }
+/*
+->create user oharish identified by "manager";
+
+->ALTER USER oharish 
+IDENTIFIED BY manager
+DEFAULT TABLESPACE users
+QUOTA 1M ON users
+ACCOUNT UNLOCK;
+ 
+->ALTER USER oharish IDENTIFIED BY manager ACCOUNT UNLOCK;
+*/
