@@ -1,0 +1,992 @@
+                                                        JDBC (Java Database Connectivity)
+						        ===========0000=================
+
+
+File systems Limitations :
+=====================
+a) We cannot store huge amount of data/information.
+b)Query Language does not support (where ,like ,groupby ,fk,pk,unique constraints....etc)
+c)There is no security for data.
+d)There is not support for constraints to mainain unique data..etc.
+
+
+To Overcome the above limitations/problems of file system, we should have to go database;
+
+
+Databases:
+==========
+1)We can store Huge amount data (in the form of tables...etc).
+2)Query Language supports( i.e supports like uniqueConstraints ,where ,like ,groupby ,fk,pk..etc)
+3)Databases provide security and also support ACID properties.
+
+
+In java there are 3 Editions are avialable :
+
+1) Java Standard Edition (JSE /J2SE) or Core Java
+2)Java Enterprise Edition (JEE /J2EE) or Adv.java
+3)Java Micro Edition         (JME/J2ME) or Andriod 
+
+Note : JDBC is a part of JSE .
+
+
+ Steps to develop JDBC Application ::
+ ==============================
+ 1)Load and Register Driver
+ 2)Establish Connection b/w Java Application and Database  (Road)
+ 3)Create Statement Object    (Vehicle)
+ 4)Send and Execute SQL Query (Input to Vehicle as SQL query..etc)
+ 5)Process Results from ResultSet
+ 6)Close the connection
+
+
+ Sample Program :
+ ================
+ 1)Load and Register Driver                                        : DriverManager
+     Class.forName("**************Mysql/Oracle/DB2/Potsgress.....******")
+
+2)Establish Connection b/w Java Application and Database  (Road)
+
+Connection con =DriverManager.getConnection("path","username","password");
+
+3)Create Statement Object    (Vehicle)
+
+Statement st = con.createStatement();  (Vehicle)
+
+ 4)Send and Execute SQL Query (Input to Vehicle as SQL query..etc)
+
+     ResultSet rs    = st.executeQuery("select * from TableName.......");
+
+    While(rs.next()){
+      ...........//processing
+      }
+
+5)Close the connection
+        con.close();
+
+
+Q)Write a java program to connect Database . 
+
+  public class DBConnect{
+
+
+    public static void main(String[] args){
+      //#01 .Load and Register Driver with DriverManager
+        Class.forName("com.mysql.cj.jdbc.Driver");
+
+	//#02.Establish Connection b/w Java Application and Database  (Road)
+	Connection  con =DriverManager.getConnection("jdbc:mysql://localhost:3306/demo","root","root");
+
+          3)Create Statement Object    (Vehicle)
+
+              Statement st = con.createStatement();  //(Vehicle)
+
+          4)Send and Execute SQL Query (Input to Vehicle as SQL query..etc)
+
+             ResultSet rs    = st.executeQuery("select * from employee");
+
+          5)Process Results from ResultSet
+	  
+	  while(rs.next()){
+            System.out.println(rs.getInt(0));
+	    }
+
+       6)Close the connection
+             con.close();
+   }
+}
+
+============================================000=================================
+
+Important Classes 
+
+
+
+JDBC API :
+
+->JDBC API provides serval classes and Interfaces;
+->Developer/Programmer  can use these classes and interface to communicate with the
+  database
+ ->Database software vendor can uses the JDBC API while developing driver software 
+
+ ->JDBC API provides two packages ::
+
+
+ 1)java.sql.* pkg
+ 2)javax.sql.*
+
+
+ 1)java.sql.* pkg      : basic Classes and Interfaces Which can be used for DB communication
+ 
+    interfaces :
+    a)Driver
+    b)Connection
+    c)Statement
+    d)PreparedStatement
+    e)CallableStatement
+    f)ResultSet
+    h)ResultSetMetaData
+    i)DatabaseMetaData
+
+    Classes :
+    a)DriverManager
+    b)Date
+    c)Time
+    d)Timestamp
+    e)Types
+       
+   
+
+ 2)javax.sql.*  : advanced Classes and Interfaces Which can be used for DB communication
+  
+  interfaces :
+  a)DataSource
+  b)RowSet (Types)
+  c)CommonDataSource
+  d)ConnectionPoolDataSource
+
+
+
+
+[Java App] ------->[DriverManager] -------->[Driver (Mysql) (s/w)]-----[Mysql DB]
+
+Here Mysql DB vendors responsible to develop driver s/w 
+
+                 <dependency>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+			<version>8.0.30</version>
+		</dependency>
+
+
+
+Types of Drivers ::
+
+    Type 1: JDBC-ODBC bridge.
+    Type 2: partial Java driver.
+    Type 3: pure Java driver for database middleware.
+    Type 4: pure Java driver for direct-to-database.
+    Type 5: highly-functional drivers with superior performance.
+
+**********************************************************************************************
+Steps to develop JDBC Application ::
+ ==============================
+ 1)Load and Register Driver
+ 2)Establish Connection b/w Java Application and Database  (Road)
+ 3)Create Statement Object    (Vehicle)
+ 4)Send and Execute SQL Query (Input to Vehicle as SQL query..etc)
+ 5)Process Results from ResultSet
+ 6)Close the connection
+
+
+
+1)Load and Register Driver :
+ Registration of Driver is Optional from Type 4 Driver.
+ 2)Establish Connection b/w Java Application and Database  (Road)
+  Connection  con =DriverManager.getConnection("jdbc:mysql://localhost:3306/demo","root","root");
+3)Create Statement Object    (Vehicle)
+
+->Once we established connection b/w java app and DB s/w.
+
+input  : SQL (Structure Query Language)
+
+                                                                                                                    // We are calling on Con object
+    Statement createStatement() throws SQLException;
+    PreparedStatement prepareStatement(String sql) throws SQLException;
+    CallableStatement prepareCall(String sql) throws SQLException;
+
+
+      Statement st = con.createStatement();  //(Vehicle)
+
+4)Send and Execute SQL Query (Input to Vehicle as SQL query..etc)
+
+According to Database specification ,all SQL Commands are divided into following types
+
+ a)DDL (Data Defination Language ) Commands
+  Eg :   drop ,rename,create ,alter ,truncate                                 //DR.CAT
+b)DML (Data Manipulation Language ) Commands
+ Eg : update ,delete,insert
+
+ c)DQL (Data Retrieval Language) Commands
+ Eg :Select
+
+d)DCL (Data Control Language ) Commands
+Eg : Alter Password, Grant Access (Permission)
+
+e)TCL (Transaction Control Language ) Commands
+Eg :Commit ,Rollback ,Savepoint ..etc
+
+
+According to Java Developers point of View ,all SQL commands divided into two types:
+
+a)Select Operation (DQL)
+b)Non-Select Operation (DML,DDL,..ect)
+
+
+
+a)Select Operation  :
+Whenever we are performing Select operation then we  get bunch of records
+ eg : Select * from employee
+
+ b)Non-Select Operation 
+Whenever we are performing Non-Select operation  then we will get numeric 
+value that will represent the number of rows effected
+
+eg : update employee esal=easl+200 where ename like '%raghu'
+
+Once we create statement object , we will get the following methods on that object
+
+ i)boolean execute(String sql) throws SQLException;       (Select & Non-Select SQL queries)
+ ii)ResultSet executeQuery(String sql) throws SQLException; (Select SQL Queries)
+ iii) int executeUpdate(String sql) throws SQLException;   (Non-Select SQL Queries)
+
+
+Note : 
+                Based on our requirement We have to use corresponding  approriate method 
+		     i)stmt.executeQuery()           //Select
+		     ii)stmt.executeUpdate()       //Non-select
+		    iii)stmt.execute()                    // true  ? Select ?Non-select
+                   iv)stmt.getResultSet()           // To get ResultSet
+		   v)stmt.getUpdateCount();     //To get updater ow Count
+
+
+5)Process Results from ResultSet
+	  
+	  
+       a)boolean next() throws SQLException;
+
+
+Conclusion :
+1)ResultSet follow 'iterator' design pattern
+2)ResultSet object is always associated with Statement object
+3)Per Statement Only one ResultSet is possible at a time ,if we are trying  to open 
+  another ResultSet  then automatically previouslly or first opened resultset will be closed.
+
+ex :
+
+ResultSet rsOne    = st.executeQuery("select * from employee");
+
+ResultSet rsTwo    = st.executeQuery("select * from employee where id=20");
+
+
+ 6)Close the connection::
+
+ After completing DB operation ,it is highly recommended to close the resource 
+
+  a)rs.close();
+   it closes the ResultSet and won't allow any further proccess of that Result
+
+   b)stmt.close();
+    it closes the Statement and won't allow any sending furrther queries to DB.
+
+    c)con.close();
+    it closes the connection and won't allow any further communication with DB.
+
+
+
+Conclusions ::
+*************
+a)Per Statement only one ResultSet  is possible at a time.
+b)Per Connection  multiple Statements Objects are possible
+c)Whenever we are closing statement object then automatically corresponding  ResultSet objs
+ will be closed
+ d)Similarly Whenever we are closing connection obj automatically corresponding  Statement objs
+ will be closed
+ e)...Final we must  need to close at least con object
+
+#Normal : Manually we want close the resources in finally block (By remembering..?)
+ try{
+
+   }catch(Exception e){
+
+   }finally{
+
+   }
+
+## TryWithResources ::
+
+   try(){
+
+   }catch(Exception e){
+
+   }
+
+   Resources (ResultSet,Statement,Connection) must be Autocloseable 
+
+  The Resource which implement AutoCloseable (I) ,those Resources are  considered as
+    AutoCloseable Resources
+
+*************************************Statements *********************************************
+
+ a)Statement 
+ b)PreparedStatement 
+c)CallableStatement 
+
+a)Statement                            : static queries 
+b)PreparedStatement        : static or dynamic queries
+c)CallableStatement          : For calling PL/SQL procedures,functions...etc
+
+
+a)Statement                          
+Statement st = con.createStatement(); 
+
+->Hence Statement Object is not associated with any Query and we can use for multiple Queries.
+->Whenever we are using execute Method, every time Query will be compiled and executed. 
+->Statement Object can work only for Static Queries.
+->Relatively Performance is Low.
+->Best choice if we want to work with multiple Queries.
+->There may be a chance of SQL Injection Attack.
+->Inserting Date and Large Objects (CLOB and BLOB) is difficult.
+
+stmt.executeUpdate(student_tab_query);  
+
+b)PreparedStatement        : static or dynamic queries   (pre-compiled  sql query )
+
+->At the time of creating PreparedStatement, 
+we have to provide SQL Query compulsory and will send to the Database and will be compiled.
+
+->Hence PrepareStatement is associated with only one Query.
+  PrepareStatement pst = con.prepareStatement(query); 
+
+->Whenever we are using execute Method, Query won’t be compiled just will be executed.
+-> PrepareStatement Object can work for both Static and Dynamic Queries.
+->Relatively Performance is High.
+->Best choice if we want to work with only one Query but required to execute multiple times.
+->There is no chance of SQL Injection Attack.
+->Inserting Date and Large Objects (CLOB and BLOB) is easy.
+
+In simple statement ::
+
+String QUERY ="insert into student (sid,sName,schoolName) values (204,'suman','MySchool');"
+Statement st = con.createStatement(); 
+st.executeQuery(QUERY);
+
+In Prepared Statement :
+
+String QUERY ="insert into student (sid,sName,schoolName) values (?,?,?);"
+
+Here '?'  : Positional Parameter OR Place Holders 
+
+PrepareStatement pst = con.prepareStatement(QUERY); 
+
+pst.setInt(1,200);
+pst.setString(2,"Harish");
+pst.setString(3,"H school");
+
+
+** Steps to  Develop JDBC Application with PreparedStatement ****
+1)Prepare SQL Query with paramater or without parameters
+
+ ex : "insert into student (sid,sName,schoolName) values (?,?,?)"
+
+Here '?'  : Positional Parameter OR Place Holders 
+
+ For Just Understanding purpose :
+                                      (?,?,?)   -> (?1,?2,?3)--> ?1   = sid ,?2 =sName , ?3=schoolName
+
+2)PrepareStatement pst = con.prepareStatement(QUERY); 
+
+At this  line PreparedStatement will be created with compilation of SQL Query. 
+           (0r)
+	   PreparedStatement object with 'pre-compiled sql query'
+
+if query having input params ,then we have to provide values in the following way
+
+pst.setInt(1,200);
+pst.setString(3,"H school");
+pst.setString(2,"Harish");
+
+ResultSet executeQuery() throws SQLException;
+int executeUpdate() throws SQLException;
+boolean execute() throws SQLException;
+
+*****  Static Query   vs Dynamic query ******
+
+1)The SQL Query without positional parameter (?)  is called static queries
+
+      ex : update employee eName='Rahul'     where eid=120;
+ 
+2)The SQL Query with positional parameter (?)  is called dynamic queries
+
+     ex : update employee eName='Rahul'     where eid=?;
+
+
+Limitation of PrepareStatement ::
+--------------------------000-------------------
+->We can use prepareStatement for only one SQL Query  for mutiple times of execution.
+
+
+
+Note ::
+->Simple statement can be used only for static queries  where as prepare statement can be used
+for both static and dynamic sql queries
+->Statement is not associated with SQL query where as prepareStatement is associated with
+ SQL query
+ ->Simple statement is best suitable if we want to work with multiple Queries where as 
+  prepareStatement if we want to work with only one Query but required to execute multiple times.
+
+************************************************************************************************
+
+
+SQL Injection Attack ::
+**********************
+In the case of Simple statement  every time query will be send to the database with user
+ provided values.
+
+ String uname ="harish'"+OR "1==1"; 
+
+ eg : "Select count(*)  from fb_users where f_user="'+uname+"'";
+
+      Select count(*) from fb_users wher f_user ='harish' or 1==1 ;
+
+      Here 1==1 or 2==2 always return ,even though  he is not valid user ,user can able
+       to access the web application by SQL Injection Attack
+
+if it is Prepared statement ?
+
+Select count(*)  from fb_users where f_user=?
+
+
+
+
+c)CallableStatement :: 
+
+Oracle                                           :PL/SQL
+MySQL                                          :  Stored Procedure language
+Microsoft  SQL Server           :Transact SQL (TSQL)
+
+
+
+->if we want to call stored procedure  from java application ,then we should go for
+Callable statement
+
+
+ Callable statement is interface  present in java.sql.pkg
+
+                                                       Statement                     (static queries )
+                                                               |  extends
+                                                    PreparedStatement        (dynamic queries)
+                                                                  | extends
+					           CallableStatement            (procedure ,funtion...etc)
+
+
+ Driver software vendor is responsible to provide  implementation for callableStatement Interface
+
+    public CallableStatement prepareCall(String sql) throws SQLException;
+
+   CallableStatement cst = con.prepareCall("call GetAllEmployee()");
+
+   Here      Call is JDBC keyword       ,GetAllEmployee is procedure name 
+
+          
+
+
+CREATE PROCEDURE getEmpNameById(
+	IN  empId INT,
+	OUT eName VARCHAR(25)
+)
+BEGIN
+		 select concat(e.first_name,' ',e.last_name) as fullName into eName from demo.employee e where e.id =empId; 
+
+END
+
+
+Final Conclusion :
+*******************
+1)If we want to work with muliple queries then we should go for Statement Object.
+2)If we want to work with only one query ,but should be executed multiple times then
+ we should go for PrepareStatement Object. 
+ 3)If we want to work with stored procedures and functions ..etc then we should go for 
+ CallableStatement
+
+***********************************************************************************************
+
+Batch update :: (Non-select queries )
+************** **********************
+When we submit multiple SQL queris  to the database  one by one will be execute  i.e 
+it takes lot of time .
+
+Then we choose batch update to perform multiple queries at a time .
+
+Advantages ::
+1)We can reduce network traffic b/w java app and Database.
+2)It means we can performance 
+
+We can implement batch updates by using below two methods ...
+  1)public void addBatch( String sql ) throws SQLException;
+          We can add queries to batch by above method
+
+2)  int[] executeBatch() throws SQLException;
+Above method is used to execute batch of sql queries at a time.
+
+Note : we can implement batch update either by using simple statement or preparestatement
+
+Limitations ::
+************
+We can use Batch update only for Non-select queries , if we are  trying to use for select
+queries  then we get RE :BatchUpdateException
+
+Execute Methods summary ::
+**************************
+In total 4 methods available ..
+
+1)executeQuery()               ->Select queries
+2)executeUpdate()            ->Non-Select quries
+3)execute() 
+        * For both Select and non-select queries
+	* For calling Stored procedures
+
+4)executeBatch()      ->For batch updates (only non-select quries)
+
+   
+**********************************************************************************************
+
+Next Concepts ::
+1)Handling Date values
+2)Large Objects (Clob,blob)
+3)properties
+4)Connection Pooling
+5)Transaction Management          
+6)MetaData
+7)JDBC with Excel sheet
+8)ResultSet Types 
+9)RowSets
+
+
+  1)Handling Date values     
+
+a)Read date value from input
+ System.out.println(:enter DOJ");
+ String doJ  =sc.next();
+
+b)Convert date from string to java.util.Date with SimpleDateFormat (formating Date)
+SimpleDateFormat sdf=new SimpeDateFormat("yyyy-MM-dd");
+java.util.Date utilDate       =sdf.parse(doJ);
+
+c)Convert date from java.util.date to java.sql.Date
+long dVal          =utilDate.getTime();
+
+ps.setDate(index,new java.sql.Date(dVal));
+
+
+
+2)Large Objects (Clob,blob) ::
+
+Even we can insert blob (image.audio,videos....etc) and clob (text files..) in DB column.
+
+To Store and retrieve large information we should go for Large objects (LOB's)
+
+There are 2 types of Large objects
+
+a)Binary Large Object (Blob)
+b)Character Large Object (Clob)
+
+a)Binary Large Object (Blob)
+*****************************
+A BLOB is a collection of binary data  stored as single entity in the database.
+
+Here BLOB   : images ,Videos ,Audios....etc
+
+
+A BLOB datatype can store maximum of   '4gb' binary data.
+
+
+b)Character Large Object (Clob)
+********************************
+A CLOB is a collection of Character data  stored as single entity in the database.
+
+Here CLOB   : text documents (plain text..)
+
+A CLOB datatype can store maximum of   '4gb'  data.
+
+
+Steps to insert BLOB Datatype into Database ::
+************************************************
+In Mysql blob respective datatype     : TINYBLOB, BLOB, MEDIUMBLOB, and LONGBLOB
+
+a)Create table  with blob datatype column
+ex :
+----
+CREATE TABLE `student` (
+  `sid` int NOT NULL,
+  `sName` varchar(20) DEFAULT NULL,
+  `schoolName` varchar(20) DEFAULT NULL,
+  `DOJ` date DEFAULT NULL,
+  `image` blob
+)
+
+b)Represent image file in the form of  java File object
+
+File imageFile =new File("budha.png");
+
+c)Create FileInputStream to read binary data from image file 
+
+FileInputStream fis =new FileInputStream(imageFile);
+
+d)Create PrepareStatement  with insert query
+
+PrepareStatement ps =con.prepareStatement("INSERT INTO student VALUES(?, ?, ?, ?,?)");
+
+e)Set the Optional parameters
+
+  public  void setBinaryStream(int parameterIndex, java.io.InputStream x, long length) throws SQLException
+
+ps.setBinaryStream(5,fis,(int)fis.length());
+
+      5                               - >  parameterIndex  
+     fis                             ->is  the java input stream which contains the binary parameter value
+    (int)fis.length() -> length the number of bytes in the stream
+
+
+f) Finally call ps.executeUpdate();
+
+Respective Methods are ::
+
+public void setBinaryStream(int parameterIndex, java.io.InputStream x,long length) throws SQLException;
+public void setBinaryStream(int parameterIndex, java.io.InputStream x) throws SQLException;
+public void setBytes(int parameterIndex, byte x[]) throws SQLException;
+..etc
+
+
+b)Character Large Object (Clob)
+********************************
+A CLOB is a collection of Character data  stored as single entity in the database.
+
+Here CLOB   : text documents (plain text..)
+
+A CLOB datatype can store maximum of   '4gb'  data.
+
+
+
+Steps to insert CLOB Datatype into Database ::
+************************************************
+In Mysql Clob respective datatype  are : TINYTEXT, TEXT, MEDIUMTEXT, LONGTEXT
+
+
+a)Create table  with clob datatype column
+
+CREATE TABLE `student` (
+  `sid` int NOT NULL,
+  `sName` varchar(20) DEFAULT NULL,
+  `schoolName` varchar(20) DEFAULT NULL,
+  `DOJ` date DEFAULT NULL,
+  `resume` MEDIUMTEXT NULL
+)
+
+b)Represent text file in the form of  java File object
+
+File txtFile =new File("resume.txt");
+
+c)Create FileInputStream to read character daa from text file 
+
+    FileInputStream fis =new FileInputStream(txtFile);
+                                           (OR)                           
+     FileReader fr =new FileReader(txtFile);
+
+d)Create PrepareStatement  with insert query
+
+PrepareStatement ps =con.prepareStatement("INSERT INTO student VALUES(?, ?, ?, ?,?)");
+
+Here am taken 5th positional Paramater as  MEDIUMTEXT (Clob)
+
+ps.setCharacterStream(5,fr);
+
+5         ->parameterIndex
+fr        ->reader
+
+Respective Methods are ::
+
+ public void setCharacterStream(int parameterIndex, java.io.Reader reader,int length) throws SQLException;
+ public  void setCharacterStream(int parameterIndex, java.io.Reader reader) throws SQLException;
+ public void setClob (int parameterIndex, Clob x) throws SQLException;
+ ...etc
+
+f) Finally call ps.executeUpdate();
+
+
+
+4)Connection Pooling
+***********************
+ DriverManager.getConnection(DBCredentials.URL.getName(), DBCredentials.USER_NAME.getName(),DBCredentials.USER_NAME.getName());
+
+if we required  to communicate with database for multiple times then it is not recommended
+to create sepeparte Connection object every time,
+** becoz  creatting and destroying Connection  object everytime create performance problem.
+
+To overcome this problem , we should have to go for connection pool (For best resuability of connection)
+
+Connection pool is a pool of already created connection object which are ready to use.
+
+if we want to communicate with database then we can request  connection pool  to 
+provide  connection.
+Once we got the connection , by using that connection  we can commnunicate with database.
+After completing communication with database ,then we can return  connection to the pool
+instead of destroying or closing.
+
+Hence we can get main advantage here is
+* reusability of connection
+* performance 
+
+
+
+
+Steps to implementing Connection Pooling (Standalone):
+************************************************************
+1)Create of Datasource object
+
+Datasource is responsible to manage connection  in connection pool
+
+Datasource is a interface present in javax.sql pkg
+
+Driver s/w vendor  is the responsible  to provide implementation.
+
+The class present in Mysql driver s/w is MysqlConnectionPoolDataSource.java ,this class is
+responsible to maintain Mysql Connection pool .
+
+Here responsible means : 
+                                                 * Creating of Connection
+						 * Maintaining of connection
+						 *If required even it can destroy
+
+
+2)Set Required info (JDBC Props ) to the Datasource Object
+
+DataSource    ds =new MysqlConnectionPoolDataSource();
+ds.setUrl("url");
+ds.setUser("user");
+ds.setPassword("password");
+
+
+3)Get the connection from Datasource Object
+
+Connection con = ds.getConnection();
+Once we got connection ,then we can communicate with database.
+
+
+Note ::
+->This way of connection from connection pool is useful for standalone application ,where as
+ web application server is responsible to  maintain Connection pool which is nothing
+ server managed connection pool . In this way we can classify these in two types ..as follows
+
+          1)Standalone Connection Pool    
+	  2)Server Managed Connection Pool
+
+
+What is the diff b/w get Connection  object  by using DriverManager and Datasource Object..?
+
+->In case of DriverManager.getConnection(), always a return a new Connection object.
+->But In case of DataSource.getConnection() , a new connection won't be created and
+  existing connection object will be returned from Connection pool.
+
+@Configuration
+class DBConfiguration{
+
+
+@Bean
+public DataSource getDataSource(){
+      /// Provide JDBC pros (URL,user,Password either from application.properties/yml file)
+ return ds;
+ }
+
+In Spring Boot By AutoConfiguration by default it will provide HikariDatasource (ConnectionPool)
+      
+}
+
+
+5)Transaction Management      
+******************************
+The process of combining all related  operation into single unit, and apply one principle :
+"do everthing or nothing prinicple";
+
+Ex :
+->Debit funds from source (sender) account to destination(reciever) account.
+
+All above operations combined into a single unit ,(means debiting amount from source account 
+                                                                                                                                         plus
+                                                                                                          crediting amount to destination account )
+then apply one principle : "do everthing or nothing principle"
+
+Transaction Properties :
+************************
+Every Transaction  should follow four ACID properties.
+
+1)A ->Atomicity 
+        Either all operation  should be done or none.
+
+2)C ->Consistency (Reliable Data or Correct Data)
+ It ensure  bringing Database from one consistent state to another consistent state.
+
+3)I-Isolation  (Separation)
+Ensure that transaction is isolated from other transactions
+
+4)D-durability
+It means once transaction committed ,then the result are permanent even in the case of 
+system  restarts,errors...etc
+
+Types of Transactions :
+***********************
+There are two types of transactions
+
+1)Local Transaction
+2)Global Transaction
+
+1)Local Transaction
+All operations  in a transaction are executed  over same Database.
+
+2)Global Transaction
+All operations  in a transaction are executed  over different Databases.
+
+Note ::
+**imp*
+        jdbc Supports only for Local Transaction.
+If we want global Transaction then we should go for EJB or Spring framework.
+
+Steps to implement Transaction Management in JDBC:
+********************************************************
+*By Default auto commit mode of DB s/w is true.
+
+1)Disable auto commit mode of JDBC.
+
+    con.setAutoCommit(false);
+
+2)If all operations completed (SUCCESS), then we can commit the transaction by using below method
+
+ con.commit();
+
+ 3)If  any sql query fail  then we have  to rollback operations which are already completed by using  
+   below method
+
+   con.rollback();
+
+6)MetaData
+7)JDBC with Excel sheet
+8)ResultTypes              
+9)RowSets
+
+6)MetaData
+Metadata         :  data about data
+
+JDBC provides 3 types of Metadata:
+
+1)DatabaseMetaData
+2)ResultSetMetaData
+3)ParameterMetaData
+
+
+
+1)DatabaseMetaData
+Connection con =ConnectionUtils.getConnection();
+DatabaseMetaData metaData = con.getMetaData();
+		  
+2)ResultSetMetaData
+ ResultSet rsOne=  stmt.executeQuery(FIND_ALL_EMP_DETAILS);
+ResultSetMetaData rsMetaData= rsOne.getMetaData();
+
+3)ParameterMetaData
+PreparedStatement prepStatement = con.prepareStatement("select 1 where 1 > ?"))
+ParameterMetaData parameterMetaData = prepStatement.getParameterMetaData();
+     
+ 7)JDBC with Excel sheet  
+ 
+Class.forName("sun.jdbc.odbc.JdbcOdbcDriver");  
+ Connection con = DriverManager.getConnection("jdbc:odbc:abhishek");  
+Statement st = con.createStatement();  
+ResultSet rs = st.executeQuery("Select * from [Sheet1$]");  
+ ResultSetMetaData rsmd = rs.getMetaData();  
+  
+	  
+8)ResultSet Types  
+**************
+Based on operation performed on ResultSet , we can divided into two types  .
+
+ 1)Read Only ResultSet
+ 2)Updatable ResultSet
+
+
+1)Read Only ResultSet :
+We can perform only read operation on the ResultSet by  using corresponding getter Methods
+We cannot perform any updation .
+By default ResultSet is read Only .
+
+We can specifty explicity 
+
+Allowed values for mode/resultSetConcurrency  are :
+
+  int CONCUR_READ_ONLY = 1007;
+  int CONCUR_UPDATABLE = 1008;
+
+ ->PreparedStatement prepareStatement(String sql, int resultSetType, int resultSetConcurrency)throws SQLException;
+ ->Statement createStatement(int resultSetType, int resultSetConcurrency, int resultSetHoldability) throws SQLException;
+
+Here resultSetConcurrency  : CONCUR_READ_ONLY or CONCUR_UPDATABLE
+
+
+ 2)Updatable ResultSet
+  The ResultSet  Which allows the programmers to perform  updation, such type of 
+  resultSet  is called Updatable ResultSet
+
+In this case we can perform select ,insert ,update ,delete.
+
+if we want to change the mode/resultSetConcurrency ,then we have to provide this below value to
+statement .
+int CONCUR_UPDATABLE = 1008;
+
+Based on cursor movement ,ResultSet  will be divided into two  types :
+************************
+1)Forward Only (Non-scrollable) ResultSet
+2)Scrollable ResultSet 
+
+
+1)Forward Only (Non-scrollable) ResultSet
+It allows the programmer  to iterate records only in forward direction.
+By default ResultSet is Non-scrollable.
+
+    int TYPE_FORWARD_ONLY = 1003;
+
+2)Scrollable ResultSet 
+It allows the programmer  to iterate records  in forward/backward direction.
+
+These are divided into two types :
+
+1)Scroll InSensitive ResultSet
+2)Scroll  Sensitive ResultSet
+
+
+**Imp Methods for Cursor Movement of ResultSet ::
+
+  Statement stmt=con.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE,ResultSet.CONCUR_UPDATABLE);
+
+  ResultSet rs=  stmt.executeQuery("select * from employee limit 10");
+
+1) rs.next();
+2)rs.getXxx();
+3)rs.getRow();
+4)rs.prevous()
+5)rs.beforeFirst()
+6)rs.afterLast()
+7)rs.first();
+8)rs.last();
+9)rs.absoulte(int)                    :  It will start  with current Position 
+10)rs.relative(int)                    :  It will start  with next Position
+11)rs.isFirst();
+12)rs.isLast();
+13)rs.isBeforeFirst();
+14)rs.isAfterLast();
+
+
+RowSets :
+*******
+->By default RowSets are Serializable where as ResultSet is not  Serializable
+->By Default RowSet is Scrollable and update  where as ResultSet are Non-Scrollable(Forward-Only) and not-updatable.
+->ResultSet is Connected ... to use ResultSet Compulsory  database connection is required where as
+ RowSet is disConnected .. to use RowSet Database Connection is not required.
+
+Types of RowSets :
+
+1)Connected RowSets
+2)Disconnected RowSets
+
+
+
+
+
+
