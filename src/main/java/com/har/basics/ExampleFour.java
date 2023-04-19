@@ -43,10 +43,10 @@ public class ExampleFour {
 			
 			int count = stmt.executeUpdate(formatSQL);
 			System.out.println("count :" + count);
-			String opt ="N";
+			String opt ="";
 			System.out.println("Still you want create one more record , then type anything orelse Not required then type 'N' ");
 			opt =scn.next();
-			if(opt.equalsIgnoreCase("N")) {
+			if("N".equalsIgnoreCase(opt)) {
 				flagIn =false;
 			}
 		}

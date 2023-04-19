@@ -11,28 +11,34 @@ public class SelectNonSelectExample {
 
 	public static final String FIND_ALL_EMP_DETAILS="Select * from employee limit 10";
 	
-	public static final String UPDATE_LAST_NAME="update employee set last_name='ST_8' where first_name='Ketty' ";
+	private static String INSERT_STUDENT = "insert into student (sid,sName,schoolName) values (204,'suman','MySchool')";
+
+	
+	public static final String UPDATE_LAST_NAME="update employee set last_name='XXXX' where first_name='Ketty' ";
 		
 	  public static void main(String[] args) throws SQLException {
 		  //Case :#01
-		  //selectOperation();
+		   // selectOperation();
 	   	  //nonSelectOperation();
-		 // selectAndNonSelectOperations();
+		  //selectAndNonSelectOperations();
 		  
 		  //case :#02
 		  // executeQuery() Vs Non-select query
-		  //executeQueryVsNonSelectOperation;
+		  //executeQueryVsNonSelectOperation();;
 		  
 		//case :#03
 		//executeUpdateVsSelectOperation;
-		//executeUpdateVsSelectOperation();
+		 //executeUpdateVsSelectOperation();
 		  
 		  //case :#04 (Create table with executeUpdate)
 		  //executeUpdateWithCreateTabScript();
 		  
+		  //case :#05 (insert with executeUpdate)
+		  executeUpdateWithINSERTQuery();;
+		  
 		  
 		  //One statement With One ResultSet
-		  oneStatementPerResult();
+		  //oneStatementPerResult();
 		  
 		  
 	}
@@ -67,7 +73,7 @@ public class SelectNonSelectExample {
 	}
 
 	private static void executeUpdateWithCreateTabScript() throws SQLException {
-		String student_tab_query ="CREATE TABLE  Student(sid INT NOT NULL,sName VARCHAR(20) DEFAULT NULL,schoolName VARCHAR(20) DEFAULT NULL) ";
+		String student_tab_query ="CREATE TABLE  Student_Mask(sid INT NOT NULL,sName VARCHAR(20) DEFAULT NULL,schoolName VARCHAR(20) DEFAULT NULL) ";
 		  
 		//#01 :(ROAD)
 		  Connection con =ConnectionUtils.getConnection();
@@ -120,14 +126,14 @@ public class SelectNonSelectExample {
 
 	  // execute ? select(true)  :Non-select (false)
 	private static void selectAndNonSelectOperations() throws SQLException {
-		boolean resultFlag   =false;
+		
 		//#01 :(ROAD)
 		  Connection con =ConnectionUtils.getConnection();
 		  
 		  //#02 : (Vehicle)
 		    Statement stmt=con.createStatement();
 		    
-		     resultFlag =stmt.execute(FIND_ALL_EMP_DETAILS);
+		    boolean resultFlag    =stmt.execute(FIND_ALL_EMP_DETAILS);
 		    
 		    System.out.println("resultFlag    - (Select)      :"+resultFlag);
 		    
@@ -198,6 +204,23 @@ public class SelectNonSelectExample {
 		    
 		        //#05 : close the connection
 		         con.close();
+	}
+	
+	private static void executeUpdateWithINSERTQuery() throws SQLException {
+		  
+		//#01 :(ROAD)
+		  Connection con =ConnectionUtils.getConnection();
+		  
+		  //#02 : (Vehicle)
+		    Statement stmt=con.createStatement();
+		  
+		    //#03 : Input to Vehicle
+		    int count=  stmt.executeUpdate(INSERT_STUDENT);  
+		    
+		    System.out.println("No of records count :"+count);
+		    
+		    //#04 : close the connection
+	         con.close();
 	}
 	
 }

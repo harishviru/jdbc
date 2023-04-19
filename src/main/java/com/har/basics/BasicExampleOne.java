@@ -8,7 +8,7 @@ import java.sql.Statement;
 
 public class BasicExampleOne {
 
-	public static final String FIND_ALL_EMP_DETAILS = "Select * from employee limit 10";
+	public static final String FIND_ALL_EMP_DETAILS = "Select * from employee ";
 
 	public static final String TAB_SPACE = "\t     ";
 
@@ -16,7 +16,7 @@ public class BasicExampleOne {
 		Connection con = null;
 		// #01.Load and Register Driver with DriverManager
 		try {
-			Class.forName("com.mysql.cj.jdbc.Driver");
+			//Class.forName("com.mysql.cj.jdbc.Driver");
 
 			// #02.Establish Connection b/w Java Application and Database (Road)
 			 con = DriverManager.getConnection("jdbc:mysql://localhost : 3306 /demo", "root", "root");
@@ -32,7 +32,7 @@ public class BasicExampleOne {
 			while (rs.next()) {
 				System.out.println(rs.getInt("id") + TAB_SPACE + rs.getString(2) + TAB_SPACE + rs.getString(3));
 			}
-		} catch (ClassNotFoundException | SQLException e) {
+		} catch ( Exception e) {
 			e.printStackTrace();
 		} finally {
 			if (con != null) {

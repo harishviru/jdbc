@@ -19,7 +19,7 @@ public class ExampleFivePS {
 		  PreparedStatement ps=con.prepareStatement(UPDATE_LAST_NAME);
 		  
 		  //#03 : set the values to positional params
-		   ps.setString(1, "Viru 123");
+		   ps.setString(1, "YYYYYY");
 		   ps.setString(2, "Jock");
 		   
 		   //#04 : call  respective execute Method  :: non-select ? executeUpdate      

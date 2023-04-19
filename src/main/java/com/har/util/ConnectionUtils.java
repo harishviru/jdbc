@@ -15,7 +15,7 @@ public class ConnectionUtils {
 
 	public static Connection getConnection() throws SQLException {
 		return DriverManager.getConnection(DBCredentials.URL.getName(), DBCredentials.USER_NAME.getName(),
-				DBCredentials.USER_NAME.getName());
+				DBCredentials.PASSWORD.getName());
 	}
 
 	public static DataSource getDataSource() {

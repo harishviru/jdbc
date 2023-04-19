@@ -25,7 +25,7 @@ public class ExampleOne {
 			stmt = con.createStatement();
 
 			// #04 .Send and Execute SQL Query (Input to Vehicle as SQL query..etc)
-			rs = stmt.executeQuery("Select * from emp  ");
+			rs = stmt.executeQuery(FIND_ALL_EMP_DETAILS);
 
 			// 05: Process Results from ResultSet
 
@@ -35,7 +35,10 @@ public class ExampleOne {
 				//System.out.println(rs.getString(3)  + "        \t       " + rs.getString("job"));
 				System.out.println("+++++++++++++++++++++++++++++++");
 			}
-		} catch (ClassNotFoundException | SQLException e) {
+		} catch ( SQLException e) {
+			e.printStackTrace();
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} finally {
 			// 06 : close Resultset ,Statement , Connnection
