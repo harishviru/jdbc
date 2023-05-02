@@ -13,13 +13,17 @@ public class ExampleThree {
 
 	public static void main(String[] args) throws SQLException {
 		//closingResourcesWithoutTryWith();       
-		//resourceOftryWithResource(); 
+		resourceOftryWithResource(); 
 		
 	}
 
 
 	private static void resourceOftryWithResource() {
-		try( Connection con =ConnectionUtils.getConnection(); Statement stmt=con.createStatement();ResultSet  rsOne=  stmt.executeQuery(FIND_ALL_EMP_DETAILS);) {
+		
+		try( Connection con =ConnectionUtils.getConnection(); 
+				Statement stmt=con.createStatement();
+				ResultSet  rsOne=  stmt.executeQuery(FIND_ALL_EMP_DETAILS);) 
+		{
 			      //# Proccess the Result Set
 			        while(rsOne.next()) {
 			        	System.out.println(rsOne.findColumn("first_name") +" :"+rsOne.getString("first_name") +" : "+ rsOne.findColumn("email")+": "+   rsOne.getString("email"));
@@ -53,7 +57,7 @@ public class ExampleThree {
 		}catch (Exception e) {
 			System.out.println(e.getMessage());
 		} finally {
-			System.out.println("closing resources ....!");
+			   System.out.println("closing resources ....!");
 			   if(rsOne!=null &&  !rsOne.isClosed()) {
 				   rsOne.close();      //closing RS object
 			   }

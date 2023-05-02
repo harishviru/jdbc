@@ -20,7 +20,7 @@ public class BlobExample {
 
 	public static void main(String[] args) throws SQLException, ParseException, IOException {
 		
-		//storingBlob();
+		storingBlob();
 		//retrieveBlobFromDB();
 		
 		
